@@ -31,7 +31,7 @@ import sqlite3
 
 # We can also close the connection if we are done with it.
 # Just be sure any changes have been committed or they will be lost.
-conn.close()
+# conn.close()
 
 def insertReceiptData(file_uuid, merch_uuid, raw_data, html_data):
     conn = sqlite3.connect('geekon.db')
