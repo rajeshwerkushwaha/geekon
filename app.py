@@ -20,7 +20,6 @@ def hello():
 @app.route('/getItem/<item>')
 def getItem(item):
     result = getItemFromDB(item)
-    print(type(result))
     return {
         'item': item,
         'result': json.dumps(result)
@@ -34,11 +33,11 @@ def showReceipt(file_uuid):
     script_response = proc.stdout.read()
 
     soup = BeautifulSoup(script_response, features="html.parser")
-    body = str(soup.find('body'))
-
+    body = str(soup.findAll('div', {"class": "esc-receipt"}))
+    print(type(body))
     # getReceiptInfo(file_uuid, soup)
 
-    return render_template('receipt.html', body=body)
+    return render_template('receipt.html', body=body[1:-1])
 
 
 @app.route('/createURL/', methods=['POST'])
@@ -47,6 +46,7 @@ def createURL():
     merch_uuid = request.form['mid']
     file_data = request.form['file']
 
+    print(file_data)
     print(type(file_data))
 
     # write file into files folder for now
@@ -61,8 +61,8 @@ def createURL():
     soup = BeautifulSoup(script_response, features="html.parser")
     html_data = str(soup.find('body'))
 
-    # print(html_data)
-    # print(type(html_data))
+    print(html_data)
+    print(type(html_data))
 
     # insertReceiptData(file_uuid, merch_uuid, raw_data, html_data)
     # getReceiptInfo(file_uuid, soup)
